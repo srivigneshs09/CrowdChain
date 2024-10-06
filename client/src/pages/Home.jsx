@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { DisplayCampaigns } from '../components';
 import { useStateContext } from '../context'
+import ScrollVideo from '../components/ScrollVideo';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,11 +22,16 @@ const Home = () => {
   }, [address, contract]);
 
   return (
-    <DisplayCampaigns 
-      title="All Campaigns"
-      isLoading={isLoading}
-      campaigns={campaigns}
-    />
+    <div>
+      
+      <div className="mt-10">
+      <DisplayCampaigns 
+        title="All Campaigns"
+        isLoading={isLoading}
+        campaigns={campaigns}
+      />
+    </div>
+    </div>
   )
 }
 

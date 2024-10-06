@@ -12,10 +12,9 @@ export const navlinks = [
     link: '/create-campaign',
   },
   {
-    name: 'payment',
+    name: 'howitworks',
     imgUrl: payment,
-    link: '/',
-    disabled: true,
+    link: '/how-it-works',
   },
   {
     name: 'withdraw',
