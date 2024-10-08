@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-
 import { useStateContext } from '../context';
 import { CustomButton } from './';
 import { logo1, menu, search, thirdweb } from '../assets';
@@ -14,15 +13,8 @@ const Navbar = () => {
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
-      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#ffffff] rounded-[100px] shadow-secondary">
-        <input type="text" placeholder="Search for campaigns" className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#000000] text-black bg-transparent outline-none" />
-        
-        <div className="w-[72px] h-full rounded-[20px] bg-[#ffde59] flex justify-center items-center cursor-pointer">
-          <img src={search} alt="search" className="w-[15px] h-[15px] object-contain"/>
-        </div>
-      </div>
-
-      <div className="sm:flex hidden flex-row justify-end gap-4">
+      
+      <div className="sm:flex hidden flex-row justify-end gap-4 ml-36" style={{marginLeft:"1110px"}}>
         <CustomButton 
           btnType="button"
           title={address ? 'Create a campaign' : 'Connect'}

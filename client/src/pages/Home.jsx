@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <div>
       
-      <div className="mt-10">
+      <div className="mt-10 gradient-bg-welcome text-white" >
       <DisplayCampaigns 
         title="All Campaigns"
         isLoading={isLoading}

@@ -16,3 +16,12 @@ input[type="date"]::-webkit-calender-picker-indicator{
     cursor: pointer;
     filter: invert(0.8);
 }
+
+.gradient-bg-welcome {
+    background-color:#0f0e13;
+  }
+
+:root
+{
+    color: white;
+}
