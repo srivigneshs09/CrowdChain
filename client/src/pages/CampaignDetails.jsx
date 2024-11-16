@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import { useStateContext } from '../context';
 import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
-import { logo1 } from '../assets';
+import { logo3 } from '../assets';
 
 const CampaignDetails = () => {
   const { state } = useLocation();
@@ -72,7 +72,7 @@ const CampaignDetails = () => {
             <h4 className="font-epilogue font-semibold text-[18px] text-black uppercase">Creator</h4>
             <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
               <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full cursor-pointer">
-                <img src={logo1} alt="user" className="w-[150px] h-[170px] object-contain"/>
+                <img src={logo3} alt="user" className="w-[150px] h-[170px] object-contain"/>
               </div>
               <div>
                 <h4 className="font-epilogue font-semibold text-[14px] text-black break-all">{state.owner}</h4>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react'; // Import Auth0 hook
-import { logo1, sun } from '../assets';
+import { logo3, sun } from '../assets';
 import { navlinks } from '../constants';
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
@@ -31,13 +31,11 @@ const Sidebar = () => {
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
       <Link to="/">
-        <div className="flex justify-center items-center">
           <img
-          src={logo1}
+          src={logo3}
           alt="Logo"
           className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] object-contain"
           />
-        </div>
       </Link>
 
 

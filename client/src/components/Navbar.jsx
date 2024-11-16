@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useStateContext } from '../context';
 import { CustomButton } from './';
-import { logo1, menu, search, thirdweb } from '../assets';
+import { logo3, menu, search, thirdweb } from '../assets';
 import { navlinks } from '../constants';
 
 const Navbar = () => {
@@ -29,7 +29,7 @@ const Navbar = () => {
       {/* Small screen navigation */}
         <div className="sm:hidden flex justify-between items-center relative">
         <div className="w-[40px] h-[40px] rounded-[10px] flex justify-center items-center cursor-pointer">
-            <img src={logo1} alt="user" className="w-[150px] h-[170px] object-contain" />
+            <img src={logo3} alt="user" className="w-[150px] h-[170px] object-contain" />
           </div>
 
           <img 

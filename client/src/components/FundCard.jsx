@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { tagType, logo1 } from '../assets';
+import { tagType } from '../assets';
 import { daysLeft } from '../utils';
 
 const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick }) => {
