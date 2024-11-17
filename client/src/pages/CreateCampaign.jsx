@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 
 import { useStateContext } from "../context";
-import { CustomButton, FormField, Loader } from "../components";
+import { CustomButton, FormField, Loader, Modal } from "../components";
 import { checkIfImage } from "../utils";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from '../config/firebase';
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const CreateCampaign = () => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -256,6 +259,36 @@ const CreateCampaign = () => {
       }
     }
 
+    try {
+      const campaignData = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        country: form.country,
+        state: form.state,
+        city: form.city,
+        pincode: form.pincode,
+        documentType: form.documentType,
+        aadhaar: form.aadhaar,
+        pancard: form.pancard,
+        title: form.title,
+        description: form.description,
+        category: form.category,
+        target: form.target,
+        deadline: form.deadline,
+        image: form.image,
+        createdAt: new Date(),
+      };
+      const docRef = await addDoc(collection(db, "campaigns"), campaignData);
+      console.log("Document written with ID: ", docRef.id);
+      setShowModal(true);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  
+
+
     checkIfImage(form.image, async (exists) => {
       if(exists) {
         setIsLoading(true)
@@ -267,6 +300,10 @@ const CreateCampaign = () => {
         setForm({ ...form, image: '' });
       }
     })
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   // Fetch Country Data
@@ -706,6 +743,13 @@ const CreateCampaign = () => {
           )}
         </div>
       </form>
+      {/* Modal: Shows up after successful submission */}
+      {showModal && (
+        <Modal
+          message="Campaign Submitted Successfully. Click OK to confirm the transaction."
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

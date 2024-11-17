@@ -7,3 +7,4 @@ export { default as DisplayCampaigns } from './DisplayCampaigns';
 export { default as FundCard } from './FundCard';
 export { default as CountBox} from './CountBox';
 export { default as ScrollVideo } from './ScrollVideo';
+export { default as Modal } from './Modal';
