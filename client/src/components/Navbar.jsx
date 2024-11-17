@@ -15,14 +15,14 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-sm shadow-sm">
       <div className="flex md:flex-row flex-col-reverse justify-between items-center px-4 py-3 md:px-8 md:py-4">
         {/* Logo in the center */}
-        <div className="flex-1 flex justify-center items-center">
+        <div className="flex-1 flex justify-center items-center md:justify-start">
           <img src={logo3} alt="Logo" className="h-[50px] object-contain" />
         </div>
 
         {/* Button for larger screens */}
         <div className="hidden sm:flex gap-4 justify-center items-center">
           <button
-            className="text-[#ffde59] text-lg font-normal hover:scale-110"
+            className="text-[#ffde59] text-lg font-epilogue hover:scale-110 transition-transform"
             onClick={() => {
               if (address) navigate('create-campaign');
               else connect();
@@ -38,18 +38,21 @@ const Navbar = () => {
             src={menu}
             alt="menu"
             className="w-[34px] h-[34px] object-contain cursor-pointer"
+            aria-label="Toggle Navigation"
             onClick={() => setToggleDrawer((prev) => !prev)}
           />
           <div
             className={`absolute top-[60px] right-0 left-0 backdrop-blur-sm z-10 shadow-secondary py-4 ${
-              !toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'
-            } transition-all duration-700`}
+              toggleDrawer ? 'translate-y-0' : '-translate-y-[100vh]'
+            } transition-all duration-700 ease-in-out`}
           >
             <ul className="mb-4">
               {navlinks.map((link) => (
                 <li
                   key={link.name}
-                  className={`flex p-4 ${isActive === link.name && 'bg-[#f0f0f0]'}`}
+                  className={`flex p-4 items-center ${
+                    isActive === link.name && 'bg-[#f0f0f0]'
+                  } hover:bg-[#ececec] transition-colors`}
                   onClick={() => {
                     setIsActive(link.name);
                     setToggleDrawer(false);
@@ -75,7 +78,7 @@ const Navbar = () => {
             </ul>
             <div className="flex mx-4">
               <button
-                className="text-[#ffde59] text-sm font-semibold hover:underline"
+                className="text-[#ffde59] text-sm font-semibold hover:underline w-full text-center py-2"
                 onClick={() => {
                   if (address) navigate('create-campaign');
                   else connect();
