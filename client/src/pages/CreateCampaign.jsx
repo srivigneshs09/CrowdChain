@@ -366,7 +366,7 @@ const CreateCampaign = () => {
 
 
   return (
-    <div className="bg-[#ffffff] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+    <div className="bg-[#ffffff] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 mt-10">
       {isLoading && <Loader />}
       <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]">
         <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-black">
@@ -571,9 +571,6 @@ const CreateCampaign = () => {
             )}
           </>
         )}
-
-
-
         {currentStep === 3 && (
           <>
             <h2 className="font-epilogue font-bold text-[20px]">
@@ -587,7 +584,7 @@ const CreateCampaign = () => {
               value={form.campaignName}
               handleChange={(e) => handleFormFieldChange("campaignName", e)}
             />
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.campaignName && <div className="text-red-500 text-sm">{errors.campaignName}</div>}
             </div>
             <div>
             <FormField
@@ -597,7 +594,7 @@ const CreateCampaign = () => {
               value={form.description}
               handleChange={(e) => handleFormFieldChange("description", e)}
             />
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.description && <div className="text-red-500 text-sm">{errors.description}</div>}
             </div>
             <div>
             <FormField
@@ -611,7 +608,7 @@ const CreateCampaign = () => {
               <option value="Education">Education</option>
               <option value="Others">Others</option>
             </FormField>
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.category && <div className="text-red-500 text-sm">{errors.category}</div>}
             </div>
             <div>
             <FormField
@@ -621,7 +618,7 @@ const CreateCampaign = () => {
               value={form.goalAmount}
               handleChange={(e) => handleFormFieldChange("goalAmount", e)}
             />
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.goalAmount && <div className="text-red-500 text-sm">{errors.goalAmount}</div>}
             </div>
             <div>
             <FormField
@@ -630,7 +627,7 @@ const CreateCampaign = () => {
               value={form.goalDate}
               handleChange={(e) => handleFormFieldChange("goalDate", e)}
             />
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.goalDate && <div className="text-red-500 text-sm">{errors.goalDate}</div>}
             </div>
           </>
 
@@ -641,6 +638,7 @@ const CreateCampaign = () => {
             <h2 className="font-epilogue font-bold text-[20px]">
               Campaign Additional Info
             </h2>
+            <div>
             <FormField
               labelName="Image of the Affected Person *"
               placeholder="Enter image URL"
@@ -648,7 +646,9 @@ const CreateCampaign = () => {
               value={form.image}
               handleChange={(e) => handleFormFieldChange("image", e)}
             />
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.image && <div className="text-red-500 text-sm">{errors.image}</div>}
+            </div>
+            <div>
             <label className="flex-1 w-full flex flex-col">
               <span className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
                 Proof Documents (Medical Reports, Bills) *
@@ -659,7 +659,8 @@ const CreateCampaign = () => {
                 className="py-[15px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-black text-[14px] rounded-[10px] sm:min-w-[300px]"
               />
             </label>
-            {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+            {errors.documents && <div className="text-red-500 text-sm">{errors.documents}</div>}
+            </div>
           </>
         )}
 

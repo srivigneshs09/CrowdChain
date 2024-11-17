@@ -6,15 +6,17 @@ import { navlinks } from '../constants';
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   <div
-    className={`w-[48px] h-[48px] rounded-[10px] ${
-      isActive === name ? 'bg-[#ffffff]' : ''
-    } flex justify-center items-center ${!disabled ? 'cursor-pointer' : ''} ${styles}`}
+    className={`w-[48px] h-[48px] rounded-[10px] flex justify-center items-center ${
+      !disabled ? 'cursor-pointer' : ''
+    } ${styles}`}
     onClick={handleClick}
   >
     <img
       src={imgUrl}
       alt={`${name}_icon`}
-      className={`w-1/2 h-1/2 ${isActive !== name ? 'grayscale' : ''}`}
+      className={`w-1/2 h-1/2 ${
+        isActive === name ? '#ffde59' : 'grayscale'
+      }`}
     />
   </div>
 );
@@ -29,17 +31,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
-      <Link to="/">
-          <img
-          src={logo3}
-          alt="Logo"
-          className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] object-contain"
-          />
-      </Link>
-
-
-      <div className="flex-1 flex flex-col justify-between items-center bg-[#ffffff] rounded-[20px] w-[76px] py-4 mt-12 shadow-secondary">
+    <div className="flex justify-between items-center flex-col sticky top-9 h-[93vh]">
+      <div className="flex-1 flex flex-col justify-between items-center bg-[#ffffff] rounded-[20px] w-[76px] py-4 mt-12 shadow-lg">
         <div className="flex flex-col justify-center items-center gap-3">
           {navlinks.map((link) => (
             <Icon
@@ -58,7 +51,7 @@ const Sidebar = () => {
           ))}
         </div>
 
-        <Icon styles="bg-[#ffde59]" imgUrl={sun} />
+        <Icon imgUrl={sun} />
       </div>
     </div>
   );
