@@ -39,7 +39,6 @@ export const StateContextProvider = ({ children }) => {
         form.image,
       ],
     });
-
       console.log("Campaign creation success", data);
     } catch (error) {
       console.log("Campaign creation failure", error);

@@ -26,13 +26,13 @@ const CreateCampaign = () => {
     country: "",
     aadhaar: "",
     pancard: "",
-    campaignName: "",
+    title: "",
     description: "",
     category: "",
-    goalAmount: "",
-    goalDate: "",
+    target: "",
+    deadline: "",
     image: "",
-    documents: null,
+    // documents: null,
   });
 
   const [errors, setErrors] = useState({
@@ -46,13 +46,13 @@ const CreateCampaign = () => {
     city: "",
     aadhaar: "",
     pancard: "",
-    campaignName: "",
+    title: "",
     description: "",
     category: "",
-    goalAmount: "",
-    goalDate: "",
+    target: "",
+    deadline: "",
     image: "",
-    documents: "",
+    // documents: "",
   });
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -121,8 +121,8 @@ const CreateCampaign = () => {
               : "";
           break;
   
-        case "campaignName":
-          newErrors.campaignName =
+        case "title":
+          newErrors.title =
             value.trim() === "" ? "Campaign name is required." : "";
           break;
   
@@ -135,25 +135,25 @@ const CreateCampaign = () => {
           newErrors.category = value.trim() === "" ? "Category is required." : "";
           break;
   
-        case "goalAmount":
-          newErrors.goalAmount =
+        case "target":
+          newErrors.target =
             isNaN(value) || Number(value) <= 0
               ? "Please enter a valid goal amount."
               : "";
           break;
   
-        case "goalDate":
-          newErrors.goalDate = value.trim() === "" ? "Goal date is required." : "";
+        case "deadline":
+          newErrors.deadline = value.trim() === "" ? "Goal date is required." : "";
           break;
   
         case "image":
           newErrors.image = value.trim() === "" ? "Image URL is required." : "";
           break;
   
-        case "documents":
-          newErrors.documents =
-            value.trim() === "" ? "Proof documents are required." : "";
-          break;
+        // case "documents":
+        //   newErrors.documents =
+        //     value.trim() === "" ? "Proof documents are required." : "";
+        //   break;
   
         default:
           break;
@@ -201,16 +201,16 @@ const CreateCampaign = () => {
         break;
   
       case 3:
-        if (!form.campaignName) newErrors.campaignName = "Campaign name is required.";
+        if (!form.title) newErrors.title = "Campaign name is required.";
         if (!form.description) newErrors.description = "Description is required.";
         if (!form.category) newErrors.category = "Category is required.";
-        if (!form.goalAmount) newErrors.goalAmount = "Goal amount is required.";
-        if (!form.goalDate) newErrors.goalDate = "Goal date is required.";
+        if (!form.target) newErrors.target = "Goal amount is required.";
+        if (!form.deadline) newErrors.deadline = "Goal date is required.";
         break;
   
       case 4:
         if (!form.image) newErrors.image = "Image URL is required.";
-        if (!form.documents) newErrors.documents = "Proof documents are required.";
+        // if (!form.documents) newErrors.documents = "Proof documents are required.";
         break;
   
       default:
@@ -257,22 +257,16 @@ const CreateCampaign = () => {
     }
 
     checkIfImage(form.image, async (exists) => {
-      if (exists) {
-        setIsLoading(true);
-        await createCampaign({
-          ...form,
-          goalAmount: ethers.utils.parseUnits(form.goalAmount, 18),
-        });
+      if(exists) {
+        setIsLoading(true)
+        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
         setIsLoading(false);
-        navigate("/");
+        navigate('/');
       } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          image: "Provide a valid image URL",
-        }));
-        setForm({ ...form, image: "" });
+        alert('Provide valid image URL')
+        setForm({ ...form, image: '' });
       }
-    });
+    })
   };
 
   // Fetch Country Data
@@ -388,7 +382,7 @@ const CreateCampaign = () => {
       >
         {currentStep === 1 && (
           <>
-            <h2 className="font-epilogue font-bold text-[20px]">User Data</h2>
+            <h2 className="font-epilogue font-bold text-[20px] text-black">User Data</h2>
             <div className="flex flex-wrap gap-[40px]">
               <div className="form-group">
               <FormField
@@ -505,7 +499,7 @@ const CreateCampaign = () => {
 
         {currentStep === 2 && (
           <>
-            <h2 className="font-epilogue font-bold text-[20px]">
+            <h2 className="font-epilogue font-bold text-[20px] text-black">
               User Additional Info
             </h2>
 
@@ -516,7 +510,7 @@ const CreateCampaign = () => {
                   <label className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
                     Do you have an Aadhaar Card or PAN Card?
                   </label>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 text-black">
                     <label>
                       <input 
                         type="radio" 
@@ -573,7 +567,7 @@ const CreateCampaign = () => {
         )}
         {currentStep === 3 && (
           <>
-            <h2 className="font-epilogue font-bold text-[20px]">
+            <h2 className="font-epilogue font-bold text-[20px] text-black">
               Campaign Details
             </h2>
             <div>
@@ -581,10 +575,10 @@ const CreateCampaign = () => {
               labelName="Campaign Name *"
               placeholder="Enter campaign name"
               inputType="text"
-              value={form.campaignName}
-              handleChange={(e) => handleFormFieldChange("campaignName", e)}
+              value={form.title}
+              handleChange={(e) => handleFormFieldChange("title", e)}
             />
-            {errors.campaignName && <div className="text-red-500 text-sm">{errors.campaignName}</div>}
+            {errors.title && <div className="text-red-500 text-sm">{errors.title}</div>}
             </div>
             <div>
             <FormField
@@ -615,19 +609,19 @@ const CreateCampaign = () => {
               labelName="Goal Amount *"
               placeholder="Enter goal amount in ETH"
               inputType="text"
-              value={form.goalAmount}
-              handleChange={(e) => handleFormFieldChange("goalAmount", e)}
+              value={form.target}
+              handleChange={(e) => handleFormFieldChange("target", e)}
             />
-            {errors.goalAmount && <div className="text-red-500 text-sm">{errors.goalAmount}</div>}
+            {errors.target && <div className="text-red-500 text-sm">{errors.target}</div>}
             </div>
             <div>
             <FormField
               labelName="Goal Date *"
               inputType="date"
-              value={form.goalDate}
-              handleChange={(e) => handleFormFieldChange("goalDate", e)}
+              value={form.deadline}
+              handleChange={(e) => handleFormFieldChange("deadline", e)}
             />
-            {errors.goalDate && <div className="text-red-500 text-sm">{errors.goalDate}</div>}
+            {errors.deadline && <div className="text-red-500 text-sm">{errors.deadline}</div>}
             </div>
           </>
 
@@ -635,7 +629,7 @@ const CreateCampaign = () => {
 
         {currentStep === 4 && (
           <>
-            <h2 className="font-epilogue font-bold text-[20px]">
+            <h2 className="font-epilogue font-bold text-[20px] text-black">
               Campaign Additional Info
             </h2>
             <div>
@@ -648,7 +642,7 @@ const CreateCampaign = () => {
             />
             {errors.image && <div className="text-red-500 text-sm">{errors.image}</div>}
             </div>
-            <div>
+            {/* <div>
             <label className="flex-1 w-full flex flex-col">
               <span className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
                 Proof Documents (Medical Reports, Bills) *
@@ -660,7 +654,7 @@ const CreateCampaign = () => {
               />
             </label>
             {errors.documents && <div className="text-red-500 text-sm">{errors.documents}</div>}
-            </div>
+            </div> */}
           </>
         )}
 
@@ -669,7 +663,7 @@ const CreateCampaign = () => {
             <h2 className="font-epilogue font-bold text-[20px] text-black">
               Terms and Conditions
             </h2>
-            <div className="flex flex-col gap-4 text-black">
+            <div className="flex flex-col gap-4 text-black font-semibold text-lg">
               <label className="flex items-center gap-2">
                 <input type="checkbox" required />
                 <span>
