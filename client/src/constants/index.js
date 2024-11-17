@@ -4,17 +4,17 @@ export const navlinks = [
   {
     name: 'dashboard',
     imgUrl: dashboard,
-    link: '/',
+    link: '/home',
   },
   {
     name: 'campaign',
     imgUrl: createCampaign,
-    link: '/create-campaign',
+    link: '/home/create-campaign',
   },
   {
     name: 'howitworks',
     imgUrl: payment,
-    link: '/how-it-works',
+    link: '/home/how-it-works',
   },
   {
     name: 'withdraw',
@@ -25,7 +25,7 @@ export const navlinks = [
   {
     name: 'profile',
     imgUrl: profile,
-    link: '/profile',
+    link: '/home/profile',
   },
   {
     name: 'logout',

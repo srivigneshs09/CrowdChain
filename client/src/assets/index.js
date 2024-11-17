@@ -14,6 +14,8 @@ import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
 import demoVideo from './Crypto.mp4';
 import logo3 from './logo3.png';
+import head from './head.png';
+import crowdfunding from './crowdfunding.jpg'
 
 export {
   tagType,
@@ -31,5 +33,7 @@ export {
   loader,
   thirdweb,
   demoVideo,
-  logo3
+  logo3,
+  head,
+  crowdfunding
 };

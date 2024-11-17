@@ -8,3 +8,13 @@ export { default as FundCard } from './FundCard';
 export { default as CountBox} from './CountBox';
 export { default as ScrollVideo } from './ScrollVideo';
 export { default as Modal } from './Modal';
+export { default as NavbarHome } from './NavbarHome';
+export { default as Header } from './Header';
+export { default as Why } from './Why';
+export { default as FundTypes } from './FundTypes';
+export { default as Start } from './Start';
+export { default as Define } from './Define';
+export { default as HowWorks } from './HowWorks';
+export { default as Faqs } from './Faqs';
+export { default as Footer } from './Footer';
+
