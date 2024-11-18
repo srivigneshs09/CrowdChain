@@ -16,6 +16,7 @@ import demoVideo from './Crypto.mp4';
 import logo3 from './logo3.png';
 import head from './head.png';
 import crowdfunding from './crowdfunding.jpg'
+import process from './process.png'
 
 export {
   tagType,
@@ -35,5 +36,6 @@ export {
   demoVideo,
   logo3,
   head,
-  crowdfunding
+  crowdfunding,
+  process
 };

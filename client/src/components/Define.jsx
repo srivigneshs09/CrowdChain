@@ -1,85 +1,115 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaHandsHelping, FaGlobe, FaShieldAlt, FaFileContract, FaLock } from 'react-icons/fa'; // Example icons
 
 const Define = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Array of "Why is it Special?" points
+  const specialPoints = [
+    {
+      title: 'Direct Contributions',
+      description:
+        'No banks or middlemen are involved. The money goes straight from the supporter to the project owner.',
+      icon: <FaHandsHelping size={80} className="text-black" />,
+      bgColor: '#ffffff',
+    },
+    {
+      title: 'Global Access',
+      description:
+        'Anyone, anywhere in the world, can contribute using their smartphone or computer.',
+      icon: <FaGlobe size={80} className="text-black" />,
+      bgColor: '#ffffff',
+    },
+    {
+      title: 'Transparency',
+      description:
+        'All transactions are recorded publicly on the blockchain, ensuring trust and accountability.',
+      icon: <FaShieldAlt size={80} className="text-black" />,
+      bgColor: '#ffffff',
+    },
+    {
+      title: 'Security',
+      description:
+        'The technology is very secure, protecting both the supporters and the project owners from fraud.',
+      icon: <FaLock size={80} className="text-black" />,
+      bgColor: '#ffffff',
+    },
+    {
+      title: 'Fairness',
+      description:
+        'Agreements are handled by smart contracts, which automatically enforce the terms of the deal without human interference.',
+      icon: <FaFileContract size={80} className="text-black" />,
+      bgColor: '#ffffff',
+    },
+  ];
+
+  // Handle next card group
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 3) % specialPoints.length);
+  };
+
+  // Handle previous card group
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 3 + specialPoints.length) % specialPoints.length
+    );
+  };
+
   return (
     <section className="flex flex-col items-center py-5 px-5 text-black font-epilogue">
+      {/* Title Section */}
       <div className="w-full text-center mb-10">
-        <h2 className="text-4xl font-semibold text-black mb-4">Understanding Crowdfunding</h2>
+        <h2 className="text-4xl font-semibold text-black mb-4">
+          Understanding Blockchain-Based Crowdfunding
+        </h2>
         <p className="text-xl text-black mb-8">
-          Crowdfunding is a powerful method for raising money for projects or ventures. Let's explore the differences between traditional crowdfunding and blockchain-based crowdfunding.
+          Blockchain-based crowdfunding is a new way of raising money using modern technology. It allows people from all over the world to contribute directly to a project without needing banks or other middlemen.
         </p>
       </div>
 
-      {/* Side-by-Side Layout for Features */}
-      <div className="flex flex-wrap justify-between gap-8">
-        {/* Normal Crowdfunding Features (Left) */}
-        <div className="w-full md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">Normal Crowdfunding</h3>
-          <div className="space-y-4">
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Platform Type</h4>
-              <p>Centralized platforms (e.g., Kickstarter, Indiegogo)</p>
+      {/* Sliding Cards Section */}
+      <div className="relative p-20">
+        <motion.div
+          key={currentIndex}
+          className="flex gap-6 md:gap-10 justify-center"
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.5 }}
+        >
+          {specialPoints.slice(currentIndex, currentIndex + 3).map((point, index) => (
+            <div
+              key={index}
+              className="w-full sm:w-[280px] md:w-[300px] h-[350px] p-6 rounded-lg shadow-xl bg-white"
+              style={{ backgroundColor: point.bgColor }}
+            >
+              <div className="absolute top-0 left-0 w-full h-full opacity-30 rounded-lg" />
+              <div className="relative z-10 flex flex-col items-center justify-center h-full">
+                <div>{point.icon}</div>
+                <h3 className="text-xl text-black font-bold mt-4">{point.title}</h3>
+                <p className="text-black mt-4 text-center">{point.description}</p>
+              </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Currency Used</h4>
-              <p>Traditional currencies (USD, EUR, etc.)</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Transaction Fees</h4>
-              <p>Higher fees due to intermediaries (banks, platform fees)</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Transparency</h4>
-              <p>Limited transparency, as the platform controls the data</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Global Reach</h4>
-              <p>Limited by local regulations and currency restrictions</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Security</h4>
-              <p>Depends on platform security measures</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Smart Contracts</h4>
-              <p>No automated execution of agreements</p>
-            </div>
-          </div>
-        </div>
+          ))}
+        </motion.div>
 
-        {/* Blockchain-Based Crowdfunding Features (Right) */}
-        <div className="w-full md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">Blockchain-Based Crowdfunding</h3>
-          <div className="space-y-4">
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Platform Type</h4>
-              <p>Decentralized platforms, powered by blockchain networks</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Currency Used</h4>
-              <p>Cryptocurrencies or platform-specific tokens (Bitcoin, Ethereum)</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Transaction Fees</h4>
-              <p>Lower fees as blockchain eliminates intermediaries</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Transparency</h4>
-              <p>High transparency, as all transactions are recorded on the blockchain</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Global Reach</h4>
-              <p>Global participation without currency or geographic restrictions</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Security</h4>
-              <p>High security due to the immutability of blockchain</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-gray-700">Smart Contracts</h4>
-              <p>Smart contracts automatically enforce terms of investment</p>
-            </div>
-          </div>
+        {/* Navigation Buttons */}
+        <div className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4">
+          <button
+            className="p-3 bg-gray-800 text-white rounded-full shadow-xl"
+            onClick={handlePrev}
+          >
+            &#8249;
+          </button>
+        </div>
+        <div className="absolute top-1/2 right-0 transform -translate-y-1/2 px-4">
+          <button
+            className="p-3 bg-gray-800 text-white rounded-full shadow-xl"
+            onClick={handleNext}
+          >
+            &#8250;
+          </button>
         </div>
       </div>
     </section>

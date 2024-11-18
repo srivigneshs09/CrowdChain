@@ -9,7 +9,7 @@ const Why = () => {
         <img
           src={head} // Replace with the correct image path
           alt="Crowdfunding for Medical Treatment"
-          className="w-full h-full rounded-lg shadow-xl"
+          className="w-full h-full rounded-full shadow-xl"
         />
       </div>
 

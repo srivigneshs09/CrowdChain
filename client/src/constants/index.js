@@ -16,12 +16,12 @@ export const navlinks = [
     imgUrl: payment,
     link: '/home/how-it-works',
   },
-  {
-    name: 'withdraw',
-    imgUrl: withdraw,
-    link: '/',
-    disabled: true,
-  },
+  // {
+  //   name: 'withdraw',
+  //   imgUrl: withdraw,
+  //   link: '/',
+  //   disabled: true,
+  // },
   {
     name: 'profile',
     imgUrl: profile,

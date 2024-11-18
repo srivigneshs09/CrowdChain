@@ -36,7 +36,7 @@ const CampaignDetails = () => {
     setIsLoading(true);
     try {
       await donate(state.pId, amount); 
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.error("Donation failed", error);
     } finally {
