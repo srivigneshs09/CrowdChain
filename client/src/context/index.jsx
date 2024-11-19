@@ -1,11 +1,13 @@
 import React, { useContext, createContext, useEffect } from 'react';
 import { useAddress, useContract, useMetamask, useContractWrite, useNetwork, useNetworkMismatch, useSwitchChain } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import { db } from '../config/firebase';
+import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract, isLoading: contractLoading } = useContract('0x05de6463f39256b1298C1DF539cB0Adb37c4174A'); 
+  const { contract, isLoading: contractLoading } = useContract('0x9b1466A8a0994443574f6b35eE2804d5c51Ee641'); 
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   
   const address = useAddress();
@@ -58,12 +60,27 @@ export const StateContextProvider = ({ children }) => {
       amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
       image: campaign.image,
       isFunded: campaign.isFunded, // New field
-      pId: i
+      pId: i,
+      status: campaign.status
     }));
 
     return parsedCampaings;
   };
 
+  const getPendingCampaigns = async () => {
+    const allCampaigns = await getCampaigns();
+    console.log("All Campaigns: ", allCampaigns); 
+    const pendingCampaigns = allCampaigns.filter((campaign) => {
+      console.log("Campaign Status: ", campaign.status); 
+      return campaign.status === "pending";
+    });
+  
+    console.log("Pending Campaigns: ", pendingCampaigns); 
+    return pendingCampaigns;
+  };
+  
+  
+  
   const getUserCampaigns = async () => {
     const allCampaigns = await getCampaigns();
     const filteredCampaigns = allCampaigns.filter((campaign) => campaign.owner === address);
@@ -99,6 +116,48 @@ export const StateContextProvider = ({ children }) => {
     return parsedDonations;
   };
 
+  const approveCampaign = async (pId) => {
+    try {
+      // Approve on smart contract
+      await contract.call('approveCampaign', [pId]);
+
+      // Update Firestore status
+      const q = query(collection(db, "campaigns"), where("pId", "==", pId));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const campaignDoc = querySnapshot.docs[0];
+        await updateDoc(doc(db, "campaigns", campaignDoc.id), { status: "approved" });
+      } else {
+        console.error("No Firestore document found with pId:", pId);
+      }
+    } catch (error) {
+      console.error("Error approving campaign:", error);
+      throw error;
+    }
+  };
+
+  // Reject a campaign
+  const rejectCampaign = async (pId) => {
+    try {
+      // Reject on smart contract
+      await contract.call('rejectCampaign', [pId]);
+
+      // Update Firestore status
+      const q = query(collection(db, "campaigns"), where("pId", "==", pId));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const campaignDoc = querySnapshot.docs[0];
+        await updateDoc(doc(db, "campaigns", campaignDoc.id), { status: "rejected" });
+      } else {
+        console.error("No Firestore document found with pId:", pId);
+      }
+    } catch (error) {
+      console.error("Error rejecting campaign:", error);
+      throw error;
+    }
+  };
+
+
   return (
     <StateContext.Provider
       value={{
@@ -109,7 +168,10 @@ export const StateContextProvider = ({ children }) => {
         getCampaigns,
         getUserCampaigns,
         donate,
-        getDonations
+        getDonations,
+        getPendingCampaigns,
+        approveCampaign,
+        rejectCampaign
       }}
     >
       {children}

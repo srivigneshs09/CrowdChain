@@ -279,27 +279,29 @@ const CreateCampaign = () => {
         deadline: form.deadline,
         image: form.image,
         createdAt: new Date(),
+        status: "pending", // Add status field
       };
+  
       const docRef = await addDoc(collection(db, "campaigns"), campaignData);
       console.log("Document written with ID: ", docRef.id);
-      setShowModal(true);
+  
+      checkIfImage(form.image, async (exists) => {
+        if (exists) {
+          setIsLoading(true);
+          await createCampaign({ 
+            ...form, 
+            target: ethers.utils.parseUnits(form.target, 18) 
+          });
+          setIsLoading(false);
+          navigate('/home');
+        } else {
+          alert('Provide a valid image URL');
+          setForm({ ...form, image: '' });
+        }
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  
-
-
-    checkIfImage(form.image, async (exists) => {
-      if(exists) {
-        setIsLoading(true)
-        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
-        setIsLoading(false);
-        navigate('/home');
-      } else {
-        alert('Provide valid image URL')
-        setForm({ ...form, image: '' });
-      }
-    })
   };
 
   const handleCloseModal = () => {

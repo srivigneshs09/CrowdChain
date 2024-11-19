@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { Sidebar, Navbar } from './components';
 import { CampaignDetails, CreateCampaign, Home, Profile, HowItWorks } from './pages';
-import FrontPage from './pages/Front'; // Importing the FrontPage
+import FrontPage from './pages/Front';
+import Admin from './pages/AdminPortal';
 import { auth } from './config/auth-firebase'; // Firebase auth instance
 
 const App = () => {
@@ -44,8 +45,23 @@ const App = () => {
         <Routes>
           {/* Public Route */}
           <Route path="/" element={<FrontPage />} />
-
+          <Route
+    path="/admin"
+    element={<ProtectedRoute component={Admin} isAuthenticated={isAuthenticated} />}
+  />
+  <Route
+    path="/admin/campaign-details/:id"
+    element={
+      <ProtectedRoute
+        component={(props) => (
+          <CampaignDetails {...props} isAdmin={true} />
+        )}
+        isAuthenticated={isAuthenticated}
+      />
+    }
+  />
           {/* Protected Routes */}
+          <Route path="/admin" element={<ProtectedRoute component={Admin} isAuthenticated={isAuthenticated} />} />
           <Route path="/home" element={<ProtectedRoute component={Home} isAuthenticated={isAuthenticated} withNavbar />} />
           <Route path="/home/how-it-works" element={<ProtectedRoute component={HowItWorks} isAuthenticated={isAuthenticated} withNavbar />} />
           <Route path="/home/profile" element={<ProtectedRoute component={Profile} isAuthenticated={isAuthenticated} withNavbar />} />

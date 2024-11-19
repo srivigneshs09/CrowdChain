@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth, provider, signInWithPopup, signOut } from "../config/auth-firebase";
+import { useNavigate } from "react-router-dom";
 import { db } from "../config/firebase"; // Import Firestore
 import { doc, setDoc } from "firebase/firestore"; // Firestore functions
-import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
@@ -16,6 +16,9 @@ const NavbarHome = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Define the admin UID
+  const ADMIN_UID = "Dj8ZETe4vgXPn0lSv1IuTjG3L582"; // Replace with the actual admin UID
+
   const handleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -23,9 +26,8 @@ const NavbarHome = () => {
 
       // Set user state
       setUser(userData);
-
-      // Prepare user details
-      const userDoc = {
+       // Prepare user details
+       const userDoc = {
         uid: userData.uid,
         displayName: userData.displayName,
         email: userData.email,
@@ -35,6 +37,7 @@ const NavbarHome = () => {
 
       // Save to Firestore
       await setDoc(doc(db, "users", userData.uid), userDoc);
+
 
       setAlertMessage("Sign-in successful! Welcome!");
       setAlertOpen(true);
@@ -58,6 +61,14 @@ const NavbarHome = () => {
     }
   };
 
+  const handleAdminPortal = () => {
+    navigate("/admin");
+  };
+
+  const handleStartCampaign = () => {
+    navigate("/home");
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -69,10 +80,6 @@ const NavbarHome = () => {
 
     return () => unsubscribe();
   }, []);
-
-  const handleStartCampaign = () => {
-    navigate("/home");
-  };
 
   return (
     <>
@@ -95,12 +102,25 @@ const NavbarHome = () => {
               </button>
             ) : (
               <>
-                <button
-                  onClick={handleStartCampaign}
-                  className="px-4 py-2 text-[#ffde59] hover:scale-110 transition"
-                >
-                  Start a Campaign
-                </button>
+                {user.uid === ADMIN_UID ? (
+                  <>
+                    <button
+                      onClick={handleAdminPortal}
+                      className="px-4 py-2 text-[#ffde59] hover:scale-110 transition"
+                    >
+                      Admin Portal
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={handleStartCampaign}
+                      className="px-4 py-2 text-[#ffde59] hover:scale-110 transition"
+                    >
+                      Start a Campaign
+                    </button>
+                  </>
+                )}
                 <button
                   onClick={handleSignOut}
                   className="px-4 py-2 text-[#ffde59] hover:scale-110 transition"

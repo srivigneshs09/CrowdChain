@@ -12,10 +12,10 @@ contract CrowdFunding {
         string image;
         address[] donators;
         uint256[] donations;
+        string status; // New field: "pending", "approved", "rejected"
     }
 
     mapping(uint256 => Campaign) public campaigns;
-
     uint256 public numberOfCampaigns = 0;
 
     function createCampaign(
@@ -28,8 +28,7 @@ contract CrowdFunding {
     ) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
-        // Ensure that the deadline is in the future
-        require(_deadline > block.timestamp, "The Deadline should be a date in the future.");
+        require(_deadline > block.timestamp, "The deadline should be a date in the future.");
 
         campaign.owner = _owner;
         campaign.title = _title;
@@ -38,31 +37,43 @@ contract CrowdFunding {
         campaign.deadline = _deadline;
         campaign.amountCollected = 0;
         campaign.image = _image;
+        campaign.status = "pending"; // Default status
 
         numberOfCampaigns++;
 
         return numberOfCampaigns - 1;
     }
 
-    function donateToCampaign(uint256 _id) public payable {
-    uint256 amount = msg.value;
-
-    Campaign storage campaign = campaigns[_id];
-
-    require(campaign.amountCollected < campaign.target, "Target amount already reached.");
-
-    require(campaign.amountCollected + amount <= campaign.target, "Donation exceeds remaining target.");
-
-    campaign.donators.push(msg.sender);
-    campaign.donations.push(amount);
-
-    (bool sent, ) = payable(campaign.owner).call{value: amount}("");
-
-    if (sent) {
-        campaign.amountCollected = campaign.amountCollected + amount;
+    function approveCampaign(uint256 _id) public {
+        Campaign storage campaign = campaigns[_id];
+        require(keccak256(bytes(campaign.status)) == keccak256(bytes("pending")), "Campaign is not pending.");
+        campaign.status = "approved";
     }
-}
 
+    function rejectCampaign(uint256 _id) public {
+        Campaign storage campaign = campaigns[_id];
+        require(keccak256(bytes(campaign.status)) == keccak256(bytes("pending")), "Campaign is not pending.");
+        campaign.status = "rejected";
+    }
+
+    function donateToCampaign(uint256 _id) public payable {
+        Campaign storage campaign = campaigns[_id];
+
+        require(
+            keccak256(bytes(campaign.status)) == keccak256(bytes("approved")),
+            "Only approved campaigns can accept donations."
+        );
+        require(campaign.amountCollected < campaign.target, "Target amount already reached.");
+        require(campaign.amountCollected + msg.value <= campaign.target, "Donation exceeds remaining target.");
+
+        campaign.donators.push(msg.sender);
+        campaign.donations.push(msg.value);
+
+        (bool sent, ) = payable(campaign.owner).call{value: msg.value}("");
+        if (sent) {
+            campaign.amountCollected += msg.value;
+        }
+    }
 
     function getDonators(uint256 _id) public view returns (address[] memory, uint256[] memory) {
         return (campaigns[_id].donators, campaigns[_id].donations);
@@ -70,7 +81,6 @@ contract CrowdFunding {
 
     function getCampaigns() public view returns (Campaign[] memory) {
         Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
-
         for (uint i = 0; i < numberOfCampaigns; i++) {
             Campaign storage item = campaigns[i];
             allCampaigns[i] = item;
